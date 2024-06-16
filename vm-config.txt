@@ -1,0 +1,25 @@
+#cloud-config
+
+package_update: true
+packages:
+  - vim
+  - fish
+
+datasource:
+  Ec2:
+    strict_id: false
+ssh_pwauth: yes
+users:
+  - name: "yc-user"
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    passwd: "$6$yeeneiqu$dyF.AKeZ8La9SN8Y1e5CwovUB0IAYvMStCJ3AM1b5Erjx9Xy6MIwHLzc9rTkexkmYgkgtkbfuuWDbmN3gLdN41"
+    lock_passwd: false
+    groups: docker, google-sudoers
+    ssh-authorized-keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDLgX53KkE3uoukd98ltV6eSxrpNCCFp8sKNo98Z2Zd/1pKQ7HLK6w+yEiQzCXX0SoFtoRCcKSW6O+3bRyVm84F+8KNRRW8oVV93I3XgfoAUtvilMKg3Rofv1lJWD6muW95U0N9YCO6/UQ1iyjZOTqBUbevxx6s23GU246Mi8F5TjxzXp5vUv2fEE3uSAuArmLmxpjti4zgLsgQIwIQDFpT7Kgal0Tj9LDX5tbTzpf2pI2FA/JhkPrGh7uwLHXXoYIBBailHmKeauyqe1KOgeng5rfgu2OsTCA68gbUc53ctYzxpsstj/3/SgR1aBPGFQCIzYOGH/VqutFvv7FaCoxeLieUItu3Io/bT9R1ko27OonsjOY/AWj2+l2oorZ5BhiLPylsABoyKTRZXLGuNQW9tR3V75OlyQqk4zR3ZBVk4ZSj/2wXU81c71J9TOVmn28RKsXH7y69+SgZfMX5wu6WKP8JC4l/RYkVem6M9Qej7cxR/mB0+xFC1eiHvTDeu9s= user@COMPUTER"
+  - name: docker-user
+    shell: /bin/bash
+    groups: docker
+    ssh-authorized-keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDLgX53KkE3uoukd98ltV6eSxrpNCCFp8sKNo98Z2Zd/1pKQ7HLK6w+yEiQzCXX0SoFtoRCcKSW6O+3bRyVm84F+8KNRRW8oVV93I3XgfoAUtvilMKg3Rofv1lJWD6muW95U0N9YCO6/UQ1iyjZOTqBUbevxx6s23GU246Mi8F5TjxzXp5vUv2fEE3uSAuArmLmxpjti4zgLsgQIwIQDFpT7Kgal0Tj9LDX5tbTzpf2pI2FA/JhkPrGh7uwLHXXoYIBBailHmKeauyqe1KOgeng5rfgu2OsTCA68gbUc53ctYzxpsstj/3/SgR1aBPGFQCIzYOGH/VqutFvv7FaCoxeLieUItu3Io/bT9R1ko27OonsjOY/AWj2+l2oorZ5BhiLPylsABoyKTRZXLGuNQW9tR3V75OlyQqk4zR3ZBVk4ZSj/2wXU81c71J9TOVmn28RKsXH7y69+SgZfMX5wu6WKP8JC4l/RYkVem6M9Qej7cxR/mB0+xFC1eiHvTDeu9s= user@COMPUTER"
