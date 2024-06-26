@@ -1,0 +1,24 @@
+---
+version: "3"
+
+env:
+  D: "stage prod"
+
+tasks:
+  yc_prepare:
+    desc: "Подготовка сетей"
+    cmds:
+      - sh ./vm-make-config.sh
+      - |
+        fish -c 'source yc-automate.fish && \
+        yc_vpc_network_create && \
+        yc_vpc_subnet_create && \
+        yc_get_variables && \
+        echo Done'
+
+  docker_rm_all:
+    desc: "Остановка и удаление docker контейнеров и имиджей"
+    cmds:
+      - docker kill $(docker ps -q)
+      - docker rm $(docker ps -a -q)
+      - docker rmi $(docker images -q)
