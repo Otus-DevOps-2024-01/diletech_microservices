@@ -44,3 +44,27 @@ docker context rm yc-docker-host
 - так же странным образом строка пароля оказывается усеченная в shadow
 - посмотреть всю инфу о хосте `yc compute instance get --full docker-host`
 - подключиться по ssh `yc compute ssh --login yc-user -i ~/.ssh/id_rsa --name docker-host`
+
+## docker-3
+билдить так:
+```sh
+docker build -t diletech/post:1.0 ./post-py
+docker build -t diletech/comment:1.0 ./comment
+docker build -t diletech/ui:1.0 ./ui
+```
+
+запускать так:
+```sh
+docker run -d --network=reddit --network-alias=post_db --network-alias=comment_db -v reddit_db:/data/db --name mongo mongo:3.4.20
+docker run -d --network=reddit --network-alias=post --name post diletech/post:1.0
+docker run -d --network=reddit --network-alias=comment  --name comment diletech/comment:1.0
+docker run -d --network=reddit -p 9292:9292 --name ui diletech/ui:1.0
+```
+
+остановить и очистить так:
+```sh
+docker kill $(docker ps -q)
+docker container prune -f
+docker network rm reddit
+docker volume rm reddit_db
+```
