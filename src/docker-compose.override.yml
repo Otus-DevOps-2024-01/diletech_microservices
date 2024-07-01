@@ -1,0 +1,21 @@
+services:
+  ui:
+    command: ["puma", "--debug", "-w", "2"]
+    volumes:
+      - ./ui:/app  # монтируем локальную папку с кодом в контейнер
+    environment:
+      - RACK_ENV=development  # устанавливаем окружение разработки для приложения
+
+  post:
+    command: ["puma", "--debug", "-w", "2"]
+    volumes:
+      - ./post-py:/app  # монтируем локальную папку с кодом в контейнер
+    environment:
+      - RACK_ENV=development  # устанавливаем окружение разработки для приложения
+
+  comment:
+    command: ["puma", "--debug", "-w", "2"]
+    volumes:
+      - ./comment:/app  # монтируем локальную папку с кодом в контейнер
+    environment:
+      - RACK_ENV=development  # устанавливаем окружение разработки для приложения
