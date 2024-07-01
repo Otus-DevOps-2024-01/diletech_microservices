@@ -1,5 +1,4 @@
-name: otusreddit
-
+version: 3.3
 services:
   post_db:
     image: mongo:3.4.20
