@@ -68,3 +68,33 @@ docker container prune -f
 docker network rm reddit
 docker volume rm reddit_db
 ```
+
+## docker-4
+запуск в разных сетях так (билд в предыдущем):
+```sh
+# создать сети
+docker network create back_net --subnet=10.0.2.0/24
+docker network create front_net --subnet=10.0.1.0/24
+
+# запустить контейнеры
+docker run -d --network=front_net --network-alias=post_db --network-alias=comment_db -v reddit_db:/data/db --name mongo_db mongo:3.4.20
+docker run -d --network=back_net --network-alias=post --name post diletech/post:1.0
+docker run -d --network=back_net --network-alias=comment  --name comment diletech/comment:1.0
+docker run -d --network=back_net -p 9292:9292 --name ui diletech/ui:1.0
+
+# добавть сети в контейнеры
+docker network connect front_net post
+docker network connect front_net comment
+
+# всё удалить (включая сети)
+docker kill $(docker ps -q)
+docker container prune -f
+docker network rm {back_net,front_net}
+```
+
+### docker compose
+для изменения имени проекта при запуске используется ключ `-p`, так же останаваливать `stop`, либо же `down`, необходимо с его указаним, потому как без указания используется значение по умолчанию (имя "папки" :-) или же указанное в `name:`
+```
+docker-compose -p myproject -d up
+docker-compose -p myproject down
+```
